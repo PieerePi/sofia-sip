@@ -260,7 +260,8 @@ static __inline su_timer_t* timers_get(su_timer_queue_t h, size_t index)
 {
 	struct timers_priv { size_t _size, _used; su_timer_t* _heap[1]; };
 	struct timers_priv* _priv = *(void**)&h; if (--index >= _priv->_used) return (((void*)0)); return _priv->_heap[index];
-} static __inline size_t timers_size(su_timer_queue_t const h) { struct timers_priv { size_t _size, _used; su_timer_t* _heap[1]; }; struct timers_priv* _priv = *(void**)&h; return _priv ? _priv->_size : 0; } static __inline size_t timers_used(su_timer_queue_t const h) { struct timers_priv { size_t _size, _used; su_timer_t* _heap[1]; }; struct timers_priv* _priv = *(void**)&h; return _priv ? _priv->_used : 0; } static int timers__less(void* h, size_t a, size_t b) { su_timer_t** _heap = h; return timers_less(_heap[a], _heap[b]); } static void timers__swap(void* h, size_t a, size_t b) { su_timer_t** _heap = h; su_timer_t* _swap = _heap[a]; timers_set(_heap, a, _heap[b]); timers_set(_heap, b, _swap); } static __inline void timers_sort(su_timer_queue_t h) { struct timers_priv { size_t _size, _used; su_timer_t* _heap[1]; }; struct timers_priv* _priv = *(void**)&h; if (_priv) su_smoothsort(_priv->_heap - 1, 1, _priv->_used, timers__less, timers__swap); } extern int const timers_dummy_heap;
+} 
+static __inline size_t timers_size(su_timer_queue_t const h) { struct timers_priv { size_t _size, _used; su_timer_t* _heap[1]; }; struct timers_priv* _priv = *(void**)&h; return _priv ? _priv->_size : 0; } static __inline size_t timers_used(su_timer_queue_t const h) { struct timers_priv { size_t _size, _used; su_timer_t* _heap[1]; }; struct timers_priv* _priv = *(void**)&h; return _priv ? _priv->_used : 0; } static int timers__less(void* h, size_t a, size_t b) { su_timer_t** _heap = h; return timers_less(_heap[a], _heap[b]); } static void timers__swap(void* h, size_t a, size_t b) { su_timer_t** _heap = h; su_timer_t* _swap = _heap[a]; timers_set(_heap, a, _heap[b]); timers_set(_heap, b, _swap); } static __inline void timers_sort(su_timer_queue_t h) { struct timers_priv { size_t _size, _used; su_timer_t* _heap[1]; }; struct timers_priv* _priv = *(void**)&h; if (_priv) su_smoothsort(_priv->_heap - 1, 1, _priv->_used, timers__less, timers__swap); } extern int const timers_dummy_heap;
 
 
 #ifdef __clang__
@@ -293,7 +294,7 @@ su_timer_set0(su_timer_queue_t *timers,
 
   if (timers_is_full(timers[0])) {
     timers_resize(NULL, timers, 0);
-    assert(!timers_is_full(timers[0]));
+   // assert(!timers_is_full(timers[0]));
     if (timers_is_full(timers[0]))
       return -1;
   }
