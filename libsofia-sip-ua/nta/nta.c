@@ -5669,14 +5669,14 @@ void incoming_queue(incoming_queue_t *queue,
 		    nta_incoming_t *irq)
 {
   if (irq->irq_queue == queue) {
-    assert(queue->q_timeout == 0);
+    assert(queue && queue->q_timeout == 0);
     return;
   }
 
   if (incoming_is_queued(irq))
     incoming_remove(irq);
 
-  assert(*queue->q_tail == NULL);
+  assert(queue && *queue->q_tail == NULL);
 
   irq->irq_timeout = set_timeout(irq->irq_agent, queue->q_timeout);
 
